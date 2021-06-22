@@ -1,12 +1,21 @@
+// Let The Games Begin...!
+
 const express = require("express");
 const mongoose = require("mongoose");
+
+// Configure the environment variables with .env
 require("dotenv").config({ path: "./config/.env" });
 const app = express();
+
+//  LUNCH THE SERVER
 const PORT = 5000 || process.env.PORT;
+
 app.listen(PORT, (err) => {
   if (err) throw err;
   console.log(`server is running on port ${PORT}`);
 });
+
+// CONNECT THE DATABASE LOCALLY
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
@@ -16,7 +25,10 @@ mongoose
   .then(() => console.log("Successfully connected"))
   .catch((err) => console.error("Failed to connect"));
 
+//  CALL THE SHECMA
 const User = require("./models/User");
+
+//   THE SENTENCE WHICH EVERYBODY FORGETS, INCLUDING MEEE !
 app.use(express.json());
 
 //  RETURN ALL USERS
@@ -32,7 +44,7 @@ app.post("/add_User", (req, res) => {
   let newUser = new User({ lastName, firstName, email, adress });
   newUser
     .save()
-    .then(() => res.json({ msg: "a new user was added successfully " }))
+    .then(() => res.json({ message: "A new user was added successfully " }))
     .catch((err) => console.log(err));
 });
 
@@ -50,6 +62,6 @@ app.put("/edit_User/:id", (req, res) => {
 // REMOVE A USER BY ID
 app.delete("/delete_User/:id", (req, res) => {
   User.findByIdAndDelete(req.params.id)
-    .then(() => res.json({ msg: "the user was deleted !" }))
+    .then(() => res.json({ message: "the user was successfully deleted !" }))
     .catch((err) => console.log(err));
 });
